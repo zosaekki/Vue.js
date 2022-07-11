@@ -5,7 +5,7 @@
     <TodoList :propsItems="todoItems" @childRemoveTodo="removeTodo" />
     <TodoFooter @childClearTodo="clearTodo" />
   </div>
-  <AlertModal @close="close" :show="modalShow" header="알림창" body="내용을 입력해 주세요."></AlertModal>
+  <AlertModal @close="closeModal" :show="modalShow" header="알림창" body="내용을 입력해 주세요."></AlertModal>
 </template>
 
 <script>
@@ -57,7 +57,7 @@ export default {
     alertModal() {
       this.modalShow = true;
     },
-    close() {
+    closeModal() {
       this.modalShow = false;
     }
   },
