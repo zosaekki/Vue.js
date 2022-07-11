@@ -20,6 +20,8 @@
                 const value = this.newTodoItem.trim(); // trim 양쪽에 있는 빈칸을 지움
                 // localStorage.setItem(value,value);
                 this.$emit('childAddTodo', value);
+            } else {
+                this.$emit('alertModal');
             }
                 this.newTodoItem = '';
             }

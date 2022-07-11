@@ -1,14 +1,14 @@
 <template>
     <section>
-        <ul>
-            <li :key="todoItem.key" v-for="(todoItem, idx) in propsItems" class="shadow">
-                <i class="checkBtn fas fa-check" aria-hidden="true"></i>
-                {{ todoItem }}
-                <span class="removeBtn" type="button" @click="removeTodo(todoItem, idx)">
-                    <i class="far fa-trash-alt" aria-hidden="true"></i>
-                </span>
-            </li>
-        </ul>
+        <transition-group name="list" tag="ul">
+                <li :key="todoItem.key" v-for="todoItem in propsItems" class="shadow">
+                    <i class="checkBtn fas fa-check" aria-hidden="true"></i>
+                    {{ todoItem.value }}
+                    <span class="removeBtn" type="button" @click="removeTodo(todoItem.key)">
+                        <i class="far fa-trash-alt" aria-hidden="true"></i>
+                    </span>
+                </li>
+        </transition-group>
     </section>
 </template>
 
@@ -16,14 +16,16 @@
     export default {
         props: { propsItems: Array},
         methods: {
-            removeTodo(todoItem, idx) {
-                this.$emit('childRemoveTodo', todoItem, idx)
+            removeTodo(key) {
+                this.$emit('childRemoveTodo', key)
             }
         },
     }
 </script>
 
 <style scoped>
+    .list-enter-active, .list-leave-active { transition: all 0.3s; }
+    .list-enter-from, .list-leave-to { opacity: 0; transform: translate(30px); }
     ul { 
         list-style-type: none;
         padding-left: 0;

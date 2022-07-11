@@ -1,10 +1,11 @@
 <template>
   <div id="app">
     <TodoHeader />
-    <TodoInput @childAddTodo="addTodo" />
+    <TodoInput @childAddTodo="addTodo" @alertModal="alertModal"/>
     <TodoList :propsItems="todoItems" @childRemoveTodo="removeTodo" />
     <TodoFooter @childClearTodo="clearTodo" />
   </div>
+  <AlertModal @close="close" :show="modalShow" header="알림창" body="내용을 입력해 주세요."></AlertModal>
 </template>
 
 <script>
@@ -12,40 +13,60 @@ import TodoHeader from './components/todo/TodoHeader.vue';
 import TodoInput from './components/todo/TodoInput.vue';
 import TodoList from './components/todo/TodoList.vue';
 import TodoFooter from './components/todo/TodoFooter.vue';
+import AlertModal from './components/common/AlertModal.vue';
 
 export default {
   name: 'App',
   data() {
     return {
-      todoItems: []
+      todoItems: [],
+      cnt: 0,
+      modalShow: false
     }
   },
   methods: {
     addTodo(todoItem) {
+      this.todoItems.push({
+        key: this.cnt++,
+        value:todoItem
+      });
       // localStorage.setItem(todoItem, todoItem);
-      this.todoItems.push(todoItem);
       // this.changeValue();
     },
-    removeTodo(todoItem, idx) {
+    removeTodo(key) {
+      // this.todoItems.splice(idx, 1);
+      this.todoItems.forEach((item, idx) => {
+        if(item.key === key) {
+          this.todoItems.splice(idx, 1);
+        }
+      })
       // localStorage.removeItem(todoItem, idx);
-      this.todoItems.splice(idx, 1);
       // this.changeValue();
     },
     clearTodo() {
-      // localStorage.clear();
       this.todoItems.splice(0);
+      this.cnt = 0;
+      // localStorage.clear();
       // this.changeValue();
     },
     changeValue() {
       const json = JSON.stringify(this.todoItems);
       localStorage.setItem('todoItems', json);
+      localStorage.setItem('cnt', this.cnt);
+    },
+    alertModal() {
+      this.modalShow = true;
+    },
+    close() {
+      this.modalShow = false;
     }
   },
   components: {
     TodoHeader,
     TodoInput,
     TodoList,
-    TodoFooter
+    TodoFooter,
+    AlertModal
   },
   watch: {
     todoItems: {
@@ -61,7 +82,9 @@ export default {
       const todoItems = JSON.parse(json);
       todoItems.forEach(item => {
         this.todoItems.push(item);
-      })
+      });
+      const cnt = localStorage.getItem("cnt"); // key 값 중복 방지
+      this.cnt = cnt;
     }
     /*
       if(localStorage.length > 0) {
