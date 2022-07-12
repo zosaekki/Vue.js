@@ -35,12 +35,16 @@ export default {
       // this.changeValue();
     },
     removeTodo(key) {
-      // this.todoItems.splice(idx, 1);
       this.todoItems.forEach((item, idx) => {
-        if(item.key === key) {
+        if(item.itodo === key) {
           this.todoItems.splice(idx, 1);
+          axios.delete(`/todo/index/${item.itodo}`)
+          .then(res => {
+            console.log(res);
+          })
         }
       })
+      
       // localStorage.removeItem(todoItem, idx);
       // this.changeValue();
     },
@@ -80,8 +84,14 @@ export default {
   created() {
     axios.get('/todo/index')
     .then(res => {
+      if(res.status === 200 && res.data.length > 0) {
+        res.data.forEach(item => {
+          this.todoItems.push(item);
+        })
+      }
       console.log(res);
     })
+    /*
     const json = localStorage.getItem("todoItems");
     if(json) {
       const todoItems = JSON.parse(json);
@@ -91,6 +101,8 @@ export default {
       const cnt = localStorage.getItem("cnt"); // key 값 중복 방지
       this.cnt = cnt;
     }
+    */
+
     /*
       if(localStorage.length > 0) {
           for(let i=0; i<localStorage.length; i++) {
