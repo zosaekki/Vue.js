@@ -3,7 +3,10 @@
         <transition-group name="list" tag="ul">
                 <li :key="todoItem.itodo" v-for="todoItem in propsItems" class="shadow">
                     <i class="checkBtn fas fa-check" aria-hidden="true"></i>
-                    {{ todoItem.todo }}
+                     <div class="box grow_1 d-flex flex-col justify_content_evenly">
+                        <div class="ctnt">{{ todoItem.todo }}</div>
+                        <div class="small_text">{{ todoItem.created_at }}</div>
+                    </div>
                     <span class="removeBtn" type="button" @click="removeTodo(todoItem.itodo)">
                         <i class="far fa-trash-alt" aria-hidden="true"></i>
                     </span>
@@ -34,21 +37,23 @@
     }
     li { 
         display: flex; 
-        min-height: 50px;
-        height: 50px;
-        line-height: 50px;
         margin: 0.5rem 0;
         padding: 0 0.9rem;
         background-color: white;
         border-radius: 5px;
     }
     .checkBtn {
-        line-height: 50px;
+        line-height: 65px;
         color: #62ACDE;
-        margin-right: 5px;
+        margin-right: 15px;
     }
     .removeBtn {
         margin-left: auto;
         color: #de4343;
     }
+
+    .small_text {
+        font-size: .9rem; color: #828181;
+    }
+    
 </style>
