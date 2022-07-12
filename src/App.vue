@@ -14,6 +14,7 @@ import TodoInput from './components/todo/TodoInput.vue';
 import TodoList from './components/todo/TodoList.vue';
 import TodoFooter from './components/todo/TodoFooter.vue';
 import AlertModal from './components/common/AlertModal.vue';
+import axios from 'axios';
 
 export default {
   name: 'App',
@@ -77,6 +78,10 @@ export default {
     }
   },
   created() {
+    axios.get('/todo/index')
+    .then(res => {
+      console.log(res);
+    })
     const json = localStorage.getItem("todoItems");
     if(json) {
       const todoItems = JSON.parse(json);
