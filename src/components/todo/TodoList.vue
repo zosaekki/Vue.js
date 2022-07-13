@@ -48,6 +48,7 @@
         margin-right: 15px;
     }
     .removeBtn {
+        line-height: 65px;
         margin-left: auto;
         color: #de4343;
     }
